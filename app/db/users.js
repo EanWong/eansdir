@@ -3,7 +3,10 @@ var records = [
   , { id: 2, username: 'jill', password: 'birthday', displayName: 'Jill', emails: [ { value: 'jill@example.com' } ] }
 ];
 
-var db = require('monk')('db:27017/local');
+var common = require('../config/common');
+var config = common.config();
+var db = require('monk')(config.mongodb.url);
+
 var users = db.get('users');
 
 
