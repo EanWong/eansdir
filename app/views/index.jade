@@ -1,0 +1,13 @@
+extends layout
+
+block content
+  h1= title
+  p#user #{name}
+  include ./includes/user_contact_settings.jade
+
+  include ./includes/user_directory.jade
+
+  include ./includes/global_directory.jade
+
+block scripts
+  script(src='/javascripts/index.js')

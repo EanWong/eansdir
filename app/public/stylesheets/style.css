@@ -1,0 +1,35 @@
+body {
+  padding: 50px;
+  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+}
+
+a {
+  color: #00B7FF;
+}
+
+#userContactSettings {
+  border-style: dashed;
+  
+}
+
+#userContactSettingsInfo {
+  padding-left: 50px;
+}
+
+#userDirectory {
+  border-style: dashed;
+  
+}
+
+#globalDirectory {
+  border-style: dashed;
+  
+}
+
+table#userDirectoryTable, th, td {
+   border: 1px solid black;
+}
+
+table#globalDirectoryTable, th, td {
+   border: 1px solid black;
+}

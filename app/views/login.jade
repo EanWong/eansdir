@@ -1,0 +1,9 @@
+extends layout
+
+block content
+  h1= title
+    form(action='/login', method='post')  
+      fieldset
+        input#loginUserName(type='text', placeholder='User Name', name='username')
+        input#loginPassword(type='text', placeholder='Password', name='password')
+        input#loginSubmit(type='submit', value='Submit')

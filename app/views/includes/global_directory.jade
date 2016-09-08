@@ -1,0 +1,36 @@
+#globalDirectory
+  h2 Global Directory
+  #formattedGlobal
+  script(id='globalDirectoryTableTemplate', type='text/template')
+    table#globalDirectoryTable
+      thead
+        tr
+          td
+            |Full Name
+          td
+            |Email
+          td
+            |CellPhone
+          td
+            |Current Address
+          td
+            |Address Changes on Date
+          td
+            |Add to my Directory
+      tbody
+        |{{#directory}}  
+        tr 
+          td
+            |{{Name}}
+          td
+            |{{Email}}
+          td
+            |{{CellPhone}}
+          td
+            |{{CurrentAddress}}
+          td
+            |{{UpdateAddressDate}}
+          td
+            |{{inList}}
+        |{{/directory}}
+  //List of all people in my contacts

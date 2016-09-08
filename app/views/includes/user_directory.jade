@@ -1,0 +1,35 @@
+#userDirectory
+  h2 My Directory
+  #testingdiv
+    script(id="testingMustache", type="text/template")
+      |{{first}} {{last}}
+  #formatted
+  script(id='userDirectoryTableTemplate', type='text/template')
+    table#userDirectoryTable
+      thead
+        tr
+          td
+            |Full Name
+          td
+            |Email
+          td
+            |CellPhone
+          td
+            |Current Address
+          td
+            |Address Changes on Date
+      tbody
+        |{{#directory}}  
+        tr 
+          td
+            |{{Name}}
+          td
+            |{{Email}}
+          td
+            |{{CellPhone}}
+          td
+            |{{CurrentAddress}}
+          td
+            |{{UpdateAddressDate}}
+        |{{/directory}}
+  //List of all people in my contacts

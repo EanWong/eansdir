@@ -1,0 +1,103 @@
+extends layout
+
+block content
+  h1= title
+  p #{title}
+  #container
+
+    h2 Switch User Session
+    #switchUser
+      fieldset
+        input#nameSwitchUser(type='text', placeholder='Name to use')
+        button#btnSwitchUser Switch User
+    
+    h2 Create User Module
+    #createUser
+      fieldset
+        input#createUserName(type='text', placeholder='User Name', name='username')
+        input#createPassword(type='text', placeholder='Password', name='password')
+        button#btnCreateUser Create User
+    hr
+    //Delete User
+    h2 Delete User - Write a Username to delete user
+    #deleteUser
+      fieldset
+        input#userNameDeleteUser(type='text', placeholder='User to delete')
+        input#passwordDeleteUser(type='text', placeholder='Password')
+        button#btnDeleteUser Delete
+    hr
+    h2 Link User with ContactID
+    #linkUser
+      fieldset
+        input#linkUserName(type='text', placeholder='User to link')
+        input#linkUserPassword(type='text', placeholder='Password')
+        input#linkUserContactID(type='text', placeholder='ContactID to link')
+        button#btnLinkUserContact Link User and Contact
+    hr
+
+    h2 User List
+    #userList
+
+    include ./includes/user_contact_settings.jade
+
+    h2 Add a new Contact (Use default if nothing is populated)
+    #addContact
+      fieldset
+        input#nameAddContact(type='text', placeholder='Name')
+        input#emailAddContact(type='text', placeholder='Email')
+        input#cellPhoneAddContact(type='text', placeholder='CellPhone')
+        input#currentAddressAddContact(type='text', placeholder='Address')
+        input#updateAddressDateAddContact(type='text', placeholder='Date of next address change')
+        button#btnAddContact Create Contact
+
+    //Working on user-specific contexts
+    h2 My directory
+    #userDirectory
+    h2 save contact to my directory (save, meaning for my personal book)
+    #saveContact
+      fieldset
+        input#rootIDSaveContact(type='text', placeholder='ID of Root Contact to link new contact with')
+        input#idSaveContact(type='text', placeholder='ID of Contact to Save')
+        button#btnSaveContact Save Contact
+    h2 Remove contact from a directory
+    #removeContact
+      fieldset
+        input#rootIDRemoveContact(type='text', placeholder='ID of Root Contact to unlink contact with')
+        input#idRemoveContact(type='text', placeholder='ID of Contact to Remove')
+        button#btnRemoveContact Remove Contact
+    //Complete Contact Directory
+    h2 Complete Contact Directory - Most up to date address book in town
+    #contactsDirectory
+
+    //Delete Contact
+    h2 Delete Contact - Write a contact name to delete that contact
+    #deleteContact
+      fieldset
+        input#nameDeleteContact(type='text', placeholder='Name to delete')
+        button#btnDeleteContact Delete
+
+    //Update Contact
+    h2 Update Contact - Write contact info and update a collection
+    #updateContact
+      fieldset
+        input#nameUpdateContact(type='text', placeholder='Name')
+      fieldset
+        input#newNameUpdateContact(type='text', placeholder='Name to change to')
+        input#emailUpdateContact(type='text', placeholder='Email')
+        input#cellPhoneUpdateContact(type='text', placeholder='CellPhone')
+        input#currentAddressUpdateContact(type='text', placeholder='Address')
+        input#updateAddressDateUpdateContact(type='text', placeholder='Date of next address change')
+        button#btnUpdateContact Update
+
+    hr
+    h2 Login Module
+    #login
+      fieldset
+        input#loginUserName(type='text', placeholder='User Name')
+        input#loginPassword(type='text', placeholder='Password')
+        button#btnLogin Login User
+
+
+
+block scripts
+  script(src='/javascripts/tests.js')
