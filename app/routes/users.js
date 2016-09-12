@@ -72,7 +72,7 @@ router.route('/contactID/:username')
   .get(function(req, res) {
     
     var username = req.params.username;
-    console.log(username);
+
     users.find({'username':username}, 'contactID', function(e, docs) {
       if (e) {
         res.send(e);

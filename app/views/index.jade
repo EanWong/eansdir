@@ -2,7 +2,7 @@ extends layout
 
 block content
   h1= title
-  p#user #{name}
+  input(id='user',type='hidden', value=user)
   include ./includes/user_contact_settings.jade
 
   include ./includes/user_directory.jade

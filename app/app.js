@@ -42,7 +42,7 @@ var tests = require('./routes/tests');
   });
 
   passport.deserializeUser(function(id, cb) {
-    db.users.findById(id, function (err, user) {
+    db_login.users.findById(id, function (err, user) {
       if (err) { return cb(err); }
       cb(null, user);
     });
@@ -63,11 +63,12 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 //For Initializing Passport and login
+app.use(require('express-session')({ secret: 'keyboard cat', resave: false, saveUninitialized: false }));
 app.use(passport.initialize());
 app.use(passport.session());
 app.get('/login',
   function(req, res){
-    res.render('login',  { title: 'eansdirectory.space' });
+    res.render('login',  { title: 'eansdirectory.space'});
   });
 
 app.post('/login', 

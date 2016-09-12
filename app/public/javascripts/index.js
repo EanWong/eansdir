@@ -1,6 +1,7 @@
 $(document).ready(function() {
   /************** Constants ***********/
-  var startingUserName = "dan";
+  var startingUserName = $('#user').val();
+  console.log("Starting username for loading is:" + startingUserName);
   /******************* Begin Script ******************/
   userManager.init(startingUserName);
 });

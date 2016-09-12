@@ -3,7 +3,11 @@ var router = express.Router();
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
-  res.render('index', { title: 'eansdirectory.space' });
+  if (req.user) { 
+    res.render('index', { title: 'eansdirectory.space', TEST:"MESSAGE:",user:req.user.username});
+  } else {
+    res.render('index', { title: 'eansdirectory.space', TEST:"MESSAGE:",user:"No user"});
+  }
 });
 
 module.exports = router;

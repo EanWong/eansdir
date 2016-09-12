@@ -50,8 +50,6 @@ router.get('/', function(req, res) {
           if (e) {
             res.send(e);
           } else {
-            console.log("Getting user contacts");
-            console.log(user_contacts);
             res.send(user_contacts);
           }
         });
