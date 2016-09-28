@@ -11,7 +11,7 @@ WORKDIR /usr/src/app
 ############################## INTERFACING specific commands
 
 # When the container is run, this is the default cmd run.
-ENTRYPOINT nodemon -L ./bin/www
+ENTRYPOINT nodemon -L --ignore 'public/*' ./bin/www
 
 # Exposes the container port 3000 to be available to connect with the host machine
 EXPOSE 3000

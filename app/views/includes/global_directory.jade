@@ -1,7 +1,7 @@
 #globalDirectory
   h2 Global Directory
   #formattedGlobal
-  script(id='globalDirectoryTableTemplate', type='text/template')
+  script#globalDirectoryTableTemplate(type='text/template')
     table#globalDirectoryTable
       thead
         tr
@@ -14,9 +14,9 @@
           td
             |Current Address
           td
-            |Address Changes on Date
+            |Next Address Change
           td
-            |In My Directory
+            |Added?
       tbody
         |{{#directory}}  
         tr 
@@ -31,6 +31,11 @@
           td
             |{{UpdateAddressDate}}
           td
-            |{{inList}}
+            |{{#inList}}
+            button(type='button' id='{{_id}}' class='btnRemoveContact') Remove Contact
+            |{{/inList}}
+            |{{^inList}}
+            button(type='button' id='{{_id}}' class='btnAddContact') Add Contact
+            |{{/inList}}
         |{{/directory}}
   //List of all people in my contacts

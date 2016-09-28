@@ -6,7 +6,7 @@ router.get('/', function(req, res, next) {
   if (req.user) { 
     res.render('index', { title: 'eansdirectory.space', TEST:"MESSAGE:",user:req.user.username});
   } else {
-    res.render('index', { title: 'eansdirectory.space', TEST:"MESSAGE:",user:"No user"});
+    res.redirect('/login');
   }
 });
 

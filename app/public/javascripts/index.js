@@ -6,6 +6,10 @@ $(document).ready(function() {
   userManager.init(startingUserName);
 });
 
+/************************************ USER MENU MODULE *******/
+
+/************************************ END MENU MODULE *******/
+
 /************************************ USER CONTACT MODULE *******/
 var userContactSettings = {
   contact: {},
@@ -109,14 +113,25 @@ var globalDirectory = {
     this.$dir = $('#globalDirectory');
     this.$template = this.$dir.find('#globalDirectoryTableTemplate');
     this.$formatted = this.$dir.find('#formattedGlobal');
+    //this.$btnAddRemoveContact = this.$formatted.find('table tbody tr td button');
   }, 
+  cacheDynamicDom: function() {
+    this.$table = this.$formatted.find('#globalDirectoryTable');
+    this.$btnAddRemoveContact = this.$table.find('button');
+  },
   bindEvents: function() {
-
+  },
+  bindDynamicEvents: function() {
+    this.$btnAddRemoveContact.on('click', this.addRemoveContactSwitch.bind(this, this.$btnAddRemoveContact));
   },
   render: function() {
-    this.addPersonal(dataManager.contacts);
+    this.updatePersonalMatches(dataManager.contacts);
     var html = Mustache.to_html(this.$template.html(), {directory:this.directory});
     this.$formatted.html(html);
+
+    //May cause problems, can this be done better?
+    this.cacheDynamicDom();
+    this.bindDynamicEvents(); 
   },
   updateView: function(contact) {
     for (var i = 0; i < this.directory.length; i++) {
@@ -127,7 +142,28 @@ var globalDirectory = {
     }
     this.render();
   },
-  addPersonal: function(userContacts) { //change this name plz
+  addRemoveContactSwitch: function(context, $element) {
+    var buttonClass = $element.target.className;
+    var contact_id = $element.target.id;
+    console.log(contact_id);
+    console.log(buttonClass);
+    if (buttonClass.localeCompare('btnAddContact') == 0) {
+      console.log("Diverting to addContact");
+      this.addContact(contact_id);
+    } else if (buttonClass.localeCompare('btnRemoveContact') == 0) {
+      console.log("Diverting to removeContact");
+      this.removeContact(contact_id);
+    }
+  },
+  addContact: function(contact_id) {
+    if (contact_id)
+      viewController.addToModel(contact_id);
+  },
+  removeContact: function(contact_id) {
+    if (contact_id)
+      viewController.removeFromModel(contact_id);
+  },
+  updatePersonalMatches: function(userContacts) { //change this name plz
 
     var contactID;
     var contact;
@@ -175,6 +211,12 @@ var viewController = {
   },
   updateModel: function(contact) {
     dataManager.updateContact(contact._id, contact);
+  },
+  addToModel: function(contact_id) {
+    dataManager.addContact(contact_id);
+  },
+  removeFromModel: function(contact_id) {
+    dataManager.removeContact(contact_id);
   }
 }
 /******************* End View Controller ***************/
@@ -225,6 +267,93 @@ var dataManager = {
     } else {
       return this.contacts;
     }
+  },
+  addContact: function(contactID) {
+    //Use contactID to get a complete contact
+    var contactRoot = this.contactID;
+    var contactToAdd = null;
+    for (var i = 0; i < this.globalContacts.length; i++) {
+      if (contactID === this.globalContacts[i]._id) {
+        contactToAdd = this.globalContacts[i];
+        break;
+      }
+    }
+    if (contactToAdd !== null) {
+      //Add complete contact to personalContacts
+      this.contacts.push(contactToAdd);
+      viewController.render();
+
+        //Update database about it?
+        $.ajax({
+          type: "POST",
+          data: {contactRoot: contactRoot},
+          url:'/contacts/link/' + contactID,
+          dataType: 'JSON'
+        }).done(function(res) {
+            //If successful
+            if (res.msg === '') {
+              console.log("Successful POST");
+
+              //Pass control to module that re-renders tables?
+              //How do we update views with new information?
+
+            } else {
+              alert("Error: check log");
+              console.log(res.msg);
+            }
+        })
+    } else {
+      console.log(contactToAdd + ' is not available. Failed to add');
+    }
+
+    },
+  removeContact: function(contactIDtoRemove) {
+    console.log("In data manager removeContact for id: " + contactIDtoRemove);
+
+    var contactToRemove = null;
+    var contactRoot = this.contactID;
+
+    var index = -1;
+    for (var i = 0; i < this.contacts.length; i++) {
+      if (contactIDtoRemove === this.contacts[i]._id) {
+        contactToRemove = this.contacts[i];
+        console.log(contactToRemove);
+        console.log(i);
+        index = i;
+        break;
+      }
+    }
+    
+    if (contactToRemove !== null && index >= 0) {
+      //Update Model
+      this.contacts.splice(index, 1);
+      viewController.render();
+
+      //Update Database
+      $.ajax({
+        type: "DELETE",
+        data: {contactRoot: contactRoot},
+        url:'/contacts/link/' + contactIDtoRemove,
+        dataType: 'JSON'
+      }).done(function(res) {
+          //If successful
+          if (res.msg === '') {
+            console.log("Successful DELETE");
+
+            //Pass control to module that re-renders tables?
+            //How do we update views with new information?
+
+          } else {
+            alert("Error: check log");
+            console.log(res.msg);
+          }
+      })
+
+    } else {
+       console.log(contactToRemove + ' is not available. Failed to Remove');
+    }
+
+
   },
   updateContact: function(contactID, updatedContact) { //Update front end model and in database
     for (var i = 0; i < this.contacts.length; i++) {

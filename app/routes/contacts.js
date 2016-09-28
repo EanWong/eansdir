@@ -157,8 +157,11 @@ router.route('/link/:contactID')
 
     contactRoot = db.id(contactRoot);
     var contactID_toLink = req.params.contactID;
-
+    console.log(contactRoot);
+    console.log(contactID_toLink);
     //contactID_toLink = db.id(contactID_toLink);
+
+    //TODO: Make sure to check if contact id even exists
 
     //Add to contact
     contacts.update({_id: contactRoot}, {$addToSet:{contacts : contactID_toLink}}, 
@@ -175,7 +178,7 @@ router.route('/link/:contactID')
     var contactID_toUnlink = req.params.contactID;
 
     contactRoot = db.id(contactRoot);
-    contactID_toUnlink = db.id(contactID_toUnlink);
+    //contactID_toUnlink = db.id(contactID_toUnlink);
 
     contacts.update({_id: contactRoot}, {$pull:{contacts : contactID_toUnlink}}),
       function(e, docs) {
