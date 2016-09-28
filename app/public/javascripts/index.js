@@ -225,25 +225,41 @@ var viewController = {
 /******************* Data Manager - Manages PERSONAL data *****************/
 var dataManager = {
   contactID: null, //User's personal contactID
-  contacts: {}, //Base data model
+  contacts: [], //Base data model
   globalContacts: {},
   init: function(contactID) {
     this.contactID = contactID;
     this.getContacts();
   },
   getContacts: function() {
+    if (this.contactID) {
 
-    //Get local user contacts
-    $.getJSON({
-      data: {contactID: this.contactID},
-      url:'/contacts/',
-      dataType: 'JSON'
-    }).done(function(data) {
-      console.log("User Data manager Initialized:");
-      dataManager.contacts = data;
+      //Get local user contacts
+      $.getJSON({
+        data: {contactID: this.contactID},
+        url:'/contacts/',
+        dataType: 'JSON'
+      }).done(function(data) {
+        console.log("User Data manager Initialized:");
+        dataManager.contacts = data;
+        viewController.init();
+
+        //Get global contacts
+        $.getJSON({
+          url:'/contacts/',
+          dataType: 'JSON'
+        }).done(function(data) {
+          console.log("Global data manager Initialized");
+          dataManager.globalContacts = data;
+          viewController.globalDirectory_init();
+        });
+      });
+
+    } else {
+      this.contacts = [];
       viewController.init();
 
-      //Get global contacts
+     //Get global contacts
       $.getJSON({
         url:'/contacts/',
         dataType: 'JSON'
@@ -252,8 +268,8 @@ var dataManager = {
         dataManager.globalContacts = data;
         viewController.globalDirectory_init();
       });
-    });
 
+    }
   },
   loadContacts: function(contactID) { //Returns a contact, for external use from User Contact
     //Run through, contacts, until it's been found
@@ -397,6 +413,7 @@ var userManager = {
     $.getJSON('/users/contactID/' + this.username, function(data) {
       userManager.contactID = data[0].contactID;
       console.log("userManager Initialized");
+      console.log("Contact ID is " + userManager.contactID);
       dataManager.init(userManager.contactID);
     });
   }

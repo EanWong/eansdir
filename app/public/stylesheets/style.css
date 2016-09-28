@@ -8,6 +8,10 @@ a {
   color: #00B7FF;
 }
 
+#userCreation {
+  border-style: solid;
+}
+
 #userMenu {
   border-style: dashed;
 }
