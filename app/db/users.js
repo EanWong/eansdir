@@ -27,8 +27,9 @@ exports.findByUsername = function(username, cb) {
      if (e) {
         cb(null, null);
       } else {
-        if(docs) {
-          
+        if (typeof docs[0] !== 'undefined' && docs[0] !== null) { // If user exists
+          console.log("Checking if found in db");
+          console.log(docs);
           docs[0].id = docs[0]._id;
           return cb(null, docs[0]);
         }

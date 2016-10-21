@@ -57,14 +57,18 @@ router.route('/')
 
     //Insert contact if totally unique document: dependent on unique indices in collection
     users.insert({username:username, password:password, contactID:contact_id}, function(e, doc) {
-
-      //after creating user, pass to make contactID
-      var blank_contact = makeEmptyContact(contact_id);
-      
-      contacts.insert(blank_contact, function(e, doc) {
+      console.log(e);
+      console.log(doc);
+      if (e) {
         res.send({redirect:'/login'});
-      });
-
+      } else {
+        //after creating user, pass to make contactID
+        var blank_contact = makeEmptyContact(contact_id);
+        
+        contacts.insert(blank_contact, function(e, doc) {
+          res.send({redirect:'/login'});
+        });
+      }
     });
   })
 
