@@ -8,6 +8,26 @@ var config = common.config();
 var db = require('monk')(config.mongodb.url);
 var users = db.get('users');
 
+var contacts = db.get('contacts');
+
+var mongo = require('mongodb');
+var ObjectID = mongo.ObjectID;
+
+
+var makeEmptyContact = function(contact_id) {
+  var empty_contact = {
+    "_id": contact_id,
+    "Name": "-",
+    "Email": "-",
+    "CellPhone": "-",
+    "CurrentAddress": "-",
+    "UpdateAddressDate": "-",
+    "contacts": [contact_id]};
+  return empty_contact;
+};
+
+
+
 router.get('/', function(req, res) {
   /* GET user list*/
   //Return all users via JSON
@@ -26,15 +46,24 @@ router.route('/')
   /* POST uniquely named contact with JSON contact in body */
   /* Does not ensure uniqueness */
   .post(function(req, res) {
+
+    //Make a contact ID?
+
     var user = req.body; //{username:"testuser",password:"testpwd"}
     var username = user.username;
     var password = user.password;
+
+    var contact_id = new ObjectID().toString();
+
     //Insert contact if totally unique document: dependent on unique indices in collection
-    users.insert({username:username, password:password}, function(e, doc) {
+    users.insert({username:username, password:password, contactID:contact_id}, function(e, doc) {
+
+      //after creating user, pass to make contactID
+      var blank_contact = makeEmptyContact(contact_id);
       
-      res.send(
-        (e === null) ? {msg : ''} : {msg : e}
-      );
+      contacts.insert(blank_contact, function(e, doc) {
+        res.send({redirect:'/login'});
+      });
 
     });
   })

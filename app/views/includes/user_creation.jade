@@ -1,9 +1,8 @@
-#userCreation
+#createUser
   h2 Sign up
-  form(action='/users', method='post')  
     fieldset
       input#desiredUserName(type='text', placeholder='Desired User Name', name='username')
       input#desiredPassword(type='password', placeholder='Desired Password', name='password')
       input#desiredPasswordRepeat(type='password', placeholder='Repeat Password', name='passwordRepeat')
 
-      input#createSubmit(type='submit', value='Create Account')
+      button#btnCreateUser Create Account

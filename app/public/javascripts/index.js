@@ -50,6 +50,7 @@ var userContactSettings = {
     var contactIDtoLookup = this.contact._id; //For lookup in db
 
     updatedContact = this.contact;
+    updatedContact.Name = this.$form.find('fieldset input#updateName').val();
     updatedContact.Email = this.$form.find('fieldset input#updateEmail').val();
     updatedContact.CellPhone = this.$form.find('fieldset input#updateCellPhone').val();
     updatedContact.CurrentAddress = this.$form.find('fieldset input#updateCurrentAddress').val();
@@ -369,7 +370,6 @@ var dataManager = {
        console.log(contactToRemove + ' is not available. Failed to Remove');
     }
 
-
   },
   updateContact: function(contactID, updatedContact) { //Update front end model and in database
     for (var i = 0; i < this.contacts.length; i++) {
@@ -384,20 +384,25 @@ var dataManager = {
         break;
       }
     }
-    $.ajax({
-      type: "POST",
-      data: JSON.stringify(updatedContact),
-      contentType: "application/json",
-      url:'/contacts/byID/' + contactID
-    }).done(function(res) {
-      //If successful
-      if (res.msg === '') {
-        console.log("Successful POST");
-      } else {
-        alert("Error: check log");
-        console.log(res.msg);
-      }  
-    });
+    if (contactID) {
+      $.ajax({
+        type: "POST",
+        data: JSON.stringify(updatedContact),
+        contentType: "application/json",
+        url:'/contacts/byID/' + contactID
+      }).done(function(res) {
+        //If successful
+        if (res.msg === '') {
+          console.log("Successful POST");
+        } else {
+          alert("Error: check log");
+          console.log(res.msg);
+        }  
+      });      
+    } else {
+      //If I haven't made a contactID For myself yet,
+    }
+
   }
 }
 /******************* End Data Manager *********************/

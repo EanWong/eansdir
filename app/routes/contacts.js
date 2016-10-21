@@ -7,11 +7,15 @@ var common = require('../config/common');
 var config = common.config();
 var db = require('monk')(config.mongodb.url);
 
+var mongo = require('mongodb');
+var ObjectID = mongo.ObjectID;
+
 var contacts = db.get('contacts');
 
 //If standalone, returns ALL contacts
 //If with query of a specific contactID, gets all contacts associated with that id
-router.get('/', function(req, res) {
+router.route('/')
+  .get(function(req, res) {
   /* GET contacts listing. {"contacts": array[i] of contacts} */
   //Return all contacts via JSON
   var query = {};
@@ -59,7 +63,7 @@ router.get('/', function(req, res) {
   contacts.find(query,filter, function(e, docs) {
 
   });
-});
+})
 
 router.route('/byName/:name')
   /* GET named contact and get contact info */
@@ -84,6 +88,7 @@ router.route('/byName/:name')
     var contactName = req.params.name;
     var contact = req.body;
 
+    console.log(contact);
     //Insert contact if totally unique document: dependent on unique indices in collection
     contacts.insert(contact, function(e, doc) {
       
