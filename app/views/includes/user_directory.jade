@@ -20,6 +20,7 @@
             |Address Changes on Date
       tbody
         |{{#directory}}  
+        |{{^isMe}}
         tr 
           td
             |{{Name}}
@@ -31,5 +32,6 @@
             |{{CurrentAddress}}
           td
             |{{UpdateAddressDate}}
+        |{{/isMe}}    
         |{{/directory}}
   //List of all people in my contacts

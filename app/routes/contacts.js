@@ -23,7 +23,7 @@ router.route('/')
 
   // If no query parameters used (i.e. looking for all contacts)
   if (Object.keys(req.query).length === 0) {
-    contacts.find({},{}, function(e, docs) {
+    contacts.find({},{fields: {contacts:0}}, function(e, docs) {
      if (e) {
         res.send(e);
       } else {
@@ -36,11 +36,11 @@ router.route('/')
 
     query = {"_id": db.id(req.query.contactID)};
     filter = "contacts";
-
     contacts.find(query, filter, function(e, user_contact_ids) {
       if (e) {
         res.send(e);
       } else {
+        console.log(user_contact_ids);
         var contact_ids = user_contact_ids[0].contacts;
 
         // Converts all contact ids stored as strings to ObjectIDs for processing
@@ -50,7 +50,8 @@ router.route('/')
         if (contact_ids == null) {
           contact_ids = [];
         }
-        contacts.find({_id : {$in: contact_ids}}, {fields: {}}, function(e, user_contacts) {
+        //Hide other accounts contacts
+        contacts.find({_id : {$in: contact_ids}}, {fields: {contacts:0}}, function(e, user_contacts) {
           if (e) {
             res.send(e);
           } else {

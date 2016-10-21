@@ -71,6 +71,7 @@ var userDirectory = {
   directory: {},
   init: function(contacts) {
     this.directory = contacts;
+    this.handleMe();
     this.cacheDom();
     this.bindEvents();
     this.render();
@@ -92,10 +93,21 @@ var userDirectory = {
     for (var i = 0; i < this.directory.length; i++) {
       if (contact._id === this.directory[i]._id) {
         this.directory[i] = contact;
+              //Maybe change later?
+              console.log("Inside updateView");
       }
-      break;
+      break; 
     }
     this.render();
+  },
+  handleMe: function() { //Maybe the wrong place for this
+    var meID = dataManager.contactID
+    for (var i = 0; i < this.directory.length; i++) {
+        if (this.directory[i]._id == meID) {
+          //console.log("There's a match!" + this.directory[i]._id + dataManager.contactID);
+          this.directory[i].isMe = true;
+        }
+    }
   }
 }
 /************************************ END USER DIRECTORY MODULE *******/
@@ -185,7 +197,7 @@ var globalDirectory = {
       
       //Maybe change later?
       if (contact._id == dataManager.contactID) {
-        console.log("There's a match!" + contact._id + dataManager.contactID);
+        //console.log("There's a match!" + contact._id + dataManager.contactID);
         contact.isMe = true;
       }
 
