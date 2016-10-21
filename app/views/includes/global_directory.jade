@@ -32,7 +32,12 @@
             |{{UpdateAddressDate}}
           td
             |{{#inList}}
+            |{{#isMe}}
+            p This is me
+            |{{/isMe}}
+            |{{^isMe}}
             button(type='button' id='{{_id}}' class='btnRemoveContact') Remove Contact
+            |{{/isMe}}
             |{{/inList}}
             |{{^inList}}
             button(type='button' id='{{_id}}' class='btnAddContact') Add Contact

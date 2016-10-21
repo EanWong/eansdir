@@ -176,13 +176,22 @@ var globalDirectory = {
       for(var j = 0; j < userContacts.length; j++) {
         contactID = userContacts[j]._id;
 
-        if (contact._id == contactID) {//There's a match
+        if (contact._id == contactID) {//There's a match between global / user directory
 
           contact.inList = true;
           this.directory[i] = contact;
         }
       }
+      
+      //Maybe change later?
+      if (contact._id == dataManager.contactID) {
+        console.log("There's a match!" + contact._id + dataManager.contactID);
+        contact.isMe = true;
+      }
+
     }
+
+    //Set personal directory to something specific?
 
 
   }
