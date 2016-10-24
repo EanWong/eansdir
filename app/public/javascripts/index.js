@@ -35,6 +35,7 @@ var userContactSettings = {
   },
   render: function() {
     //Clear form
+    this.$form.find('fieldset input#updateName').val('');
     this.$form.find('fieldset input#updateEmail').val('');
     this.$form.find('fieldset input#updateCellPhone').val('');
     this.$form.find('fieldset input#updateCurrentAddress').val('');
@@ -71,7 +72,7 @@ var userDirectory = {
   directory: {},
   init: function(contacts) {
     this.directory = contacts;
-    this.handleMe();
+    //this.renderMe();
     this.cacheDom();
     this.bindEvents();
     this.render();
@@ -86,7 +87,7 @@ var userDirectory = {
 
   },
   render: function() {
-    var html = Mustache.to_html(this.$template.html(), {directory:this.directory});
+    var html = Mustache.to_html(this.$template.html(), {directory:this.renderMe()});
     this.$formatted.html(html);
   },
   updateView: function(contact) {
@@ -100,14 +101,18 @@ var userDirectory = {
     }
     this.render();
   },
-  handleMe: function() { //Maybe the wrong place for this
-    var meID = dataManager.contactID
+  renderMe: function() { //Maybe the wrong place for this
+    
+    var directory_with_me = this.directory;
+    var meID = dataManager.contactID;
+
     for (var i = 0; i < this.directory.length; i++) {
         if (this.directory[i]._id == meID) {
           //console.log("There's a match!" + this.directory[i]._id + dataManager.contactID);
-          this.directory[i].isMe = true;
+          directory_with_me[i].isMe = true;
         }
     }
+    return directory_with_me;
   }
 }
 /************************************ END USER DIRECTORY MODULE *******/
@@ -139,7 +144,7 @@ var globalDirectory = {
   },
   render: function() {
     this.updatePersonalMatches(dataManager.contacts);
-    var html = Mustache.to_html(this.$template.html(), {directory:this.directory});
+    var html = Mustache.to_html(this.$template.html(), {directory:this.renderMe()});
     this.$formatted.html(html);
 
     //May cause problems, can this be done better?
@@ -196,16 +201,31 @@ var globalDirectory = {
       }
       
       //Maybe change later?
-      if (contact._id == dataManager.contactID) {
+      /*if (contact._id == dataManager.contactID) {
         //console.log("There's a match!" + contact._id + dataManager.contactID);
         contact.isMe = true;
+      } else {
+        contact.isMe = false;
       }
-
+      */
     }
 
     //Set personal directory to something specific?
 
 
+  },
+  renderMe: function() { //Maybe the wrong place for this
+  
+    var directory_with_me = this.directory;
+    var meID = dataManager.contactID;
+
+    for (var i = 0; i < this.directory.length; i++) {
+        if (this.directory[i]._id == meID) {
+          //console.log("There's a match!" + this.directory[i]._id + dataManager.contactID);
+          directory_with_me[i].isMe = true;
+        }
+    }
+    return directory_with_me;
   }
 }
 /************************************ END GLOBAL DIRECTORY MODULE *******/

@@ -19,7 +19,7 @@
             |Added?
       tbody
         |{{#directory}}  
-        tr 
+        tr
           td
             |{{Name}}
           td
@@ -42,5 +42,10 @@
             |{{^inList}}
             button(type='button' id='{{_id}}' class='btnAddContact') Add Contact
             |{{/inList}}
+        |{{/directory}}
+        |{{^directory}}
+        tr
+          td
+            p Nada
         |{{/directory}}
   //List of all people in my contacts
