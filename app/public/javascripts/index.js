@@ -29,9 +29,11 @@ var userContactSettings = {
     this.$btnUpdate = this.$el.find('fieldset button#updateContactBtn');
     this.$info = this.$el.find('#userContactSettingsInfo');
     this.$form = this.$el.find('#userContactSettingsForm');
+    this.$updateInfoForm = this.$form.find('fieldset');
   },
   bindEvents: function() {
     this.$btnUpdate.on('click', this.updateContact.bind(this));
+    this.$updateInfoForm.find('input').on('click', this.setupUpdateContact.bind(this));
   },
   render: function() {
     //Clear form
@@ -46,6 +48,26 @@ var userContactSettings = {
     this.$info.find('span#userContactSettingsCellPhone').text(this.contact.CellPhone);
     this.$info.find('span#userContactSettingsCurrentAddress').text(this.contact.CurrentAddress);
     this.$info.find('span#userContactSettingsUpdateAddressDate').text(this.contact.UpdateAddressDate);
+  },
+  setupUpdateContact: function(e) {
+    //Get current contact info
+
+    // Only reset fields if empty
+    if (this.$updateInfoForm.find('input').val() == '')  {
+
+      var name = this.$info.find('span#userContactSettingsName').text();
+      var email = this.$info.find('span#userContactSettingsEmail').text();
+      var cellphone = this.$info.find('span#userContactSettingsCellPhone').text();
+      var currentAddress = this.$info.find('span#userContactSettingsCurrentAddress').text();
+      var updateDate = this.$info.find('span#userContactSettingsUpdateAddressDate').text();
+
+      //Fill form with info
+      this.$updateInfoForm.find('input#updateName').val(name);
+      this.$updateInfoForm.find('input#updateEmail').val(email);
+      this.$updateInfoForm.find('input#updateCellPhone').val(cellphone);
+      this.$updateInfoForm.find('input#updateCurrentAddress').val(currentAddress);
+      this.$updateInfoForm.find('input#updateAddressChangeDate').val(updateDate);
+    }
   },
   updateContact: function(e) {
     var contactIDtoLookup = this.contact._id; //For lookup in db
