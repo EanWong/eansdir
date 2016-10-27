@@ -120,6 +120,8 @@ router.route('/byName/:name')
     var contactName = req.params.name;
     var contactUpdate = req.body;
 
+    console.log(contactUpdate);
+
     contacts.update({'Name' : contactName}, {$set:contactUpdate}, function(e, doc) {
 
       res.send(
@@ -145,12 +147,15 @@ router.route('/byID/:contactID')
     var contactID = req.params.contactID;
    
     var contactUpdate = req.body;
-    contacts.update({_id : db.id(contactID)}, {$set:contactUpdate}, function(e, doc) {
+    console.log(contactUpdate);
+    clean_for_db_updated_contact_info(contactUpdate, function(cleanedContact) {
+      contacts.update({_id : db.id(contactID)}, {$set:cleanedContact}, function(e, doc) {
 
-      res.send(
-        (e === null) ? {msg : ''} : {msg : e}
-      );
+        res.send(
+          (e === null) ? {msg : ''} : {msg : e}
+        );
 
+      });
     });
     
   });
@@ -198,6 +203,17 @@ router.route('/link/:contactID')
 
   });
 
+function clean_for_db_updated_contact_info(contact, cb) {
+  var cleanContact = 
+    {
+      "Name" : contact.Name,
+      "Email" :contact.Email,
+      "CellPhone" : contact.CellPhone,
+      "CurrentAddress" : contact.CurrentAddress,
+      "UpdateAddressDate" : contact.UpdateAddressDate,
+    }
+  cb(cleanContact);
+}
 
 /* Disconnect from db */
 db.close();

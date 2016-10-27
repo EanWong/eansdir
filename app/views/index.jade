@@ -1,8 +1,8 @@
 extends layout
 
 block content
-  include ./includes/user_menu.jade
   h1= title
+  include ./includes/user_menu.jade
   input(id='user',type='hidden', value=user)
   include ./includes/user_contact_settings.jade
 

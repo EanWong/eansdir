@@ -94,7 +94,6 @@ var userDirectory = {
   directory: {},
   init: function(contacts) {
     this.directory = contacts;
-    //this.renderMe();
     this.cacheDom();
     this.bindEvents();
     this.render();
@@ -165,8 +164,7 @@ var globalDirectory = {
     this.$btnAddRemoveContact.on('click', this.addRemoveContactSwitch.bind(this, this.$btnAddRemoveContact));
   },
   render: function() {
-    this.updatePersonalMatches(dataManager.contacts);
-    var html = Mustache.to_html(this.$template.html(), {directory:this.renderMe()});
+    var html = Mustache.to_html(this.$template.html(), {directory:this.renderPersonalMatches(dataManager.contacts)});
     this.$formatted.html(html);
 
     //May cause problems, can this be done better?
@@ -203,7 +201,10 @@ var globalDirectory = {
     if (contact_id)
       viewController.removeFromModel(contact_id);
   },
-  updatePersonalMatches: function(userContacts) { //change this name plz
+  renderPersonalMatches: function(userContacts) { //change this name plz
+    
+    var renderedDirectory = this.directory;
+    var meID = dataManager.contactID;
 
     var contactID;
     var contact;
@@ -218,36 +219,17 @@ var globalDirectory = {
         if (contact._id == contactID) {//There's a match between global / user directory
 
           contact.inList = true;
-          this.directory[i] = contact;
+          renderedDirectory[i] = contact;
         }
       }
       
-      //Maybe change later?
-      /*if (contact._id == dataManager.contactID) {
-        //console.log("There's a match!" + contact._id + dataManager.contactID);
+      if (contact._id == meID) {
         contact.isMe = true;
-      } else {
-        contact.isMe = false;
+        renderedDirectory[i] = contact;  
       }
-      */
     }
 
-    //Set personal directory to something specific?
-
-
-  },
-  renderMe: function() { //Maybe the wrong place for this
-  
-    var directory_with_me = this.directory;
-    var meID = dataManager.contactID;
-
-    for (var i = 0; i < this.directory.length; i++) {
-        if (this.directory[i]._id == meID) {
-          //console.log("There's a match!" + this.directory[i]._id + dataManager.contactID);
-          directory_with_me[i].isMe = true;
-        }
-    }
-    return directory_with_me;
+    return renderedDirectory;
   }
 }
 /************************************ END GLOBAL DIRECTORY MODULE *******/
