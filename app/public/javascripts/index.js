@@ -52,21 +52,30 @@ var userContactSettings = {
   setupUpdateContact: function(e) {
     //Get current contact info
 
+    //First make sure all fields are empty
+    //Check current contact info.
+    //If all the inputs are empty, Try and update them
+    //If the updates are '-', DON"T UPDATE THEM
+    //If they updates AREN'T '-', UPDATE THEM
+
     // Only reset fields if empty
     if (this.$updateInfoForm.find('input').val() == '')  {
 
-      var name = this.$info.find('span#userContactSettingsName').text();
-      var email = this.$info.find('span#userContactSettingsEmail').text();
-      var cellphone = this.$info.find('span#userContactSettingsCellPhone').text();
-      var currentAddress = this.$info.find('span#userContactSettingsCurrentAddress').text();
-      var updateDate = this.$info.find('span#userContactSettingsUpdateAddressDate').text();
-
-      //Fill form with info
-      this.$updateInfoForm.find('input#updateName').val(name);
-      this.$updateInfoForm.find('input#updateEmail').val(email);
-      this.$updateInfoForm.find('input#updateCellPhone').val(cellphone);
-      this.$updateInfoForm.find('input#updateCurrentAddress').val(currentAddress);
-      this.$updateInfoForm.find('input#updateAddressChangeDate').val(updateDate);
+      var userContactSettingsFormContext = this.$updateInfoForm;
+      var userInfoSpanCount = 0;
+      //Look at each infospan and see if they are dashes
+      this.$info.children().each(function(i) {
+        if ($(this).is('span')) {
+          var contactInfoField = $(this).text();
+          console.log(contactInfoField);
+          if (contactInfoField != '-' && contactInfoField != '') {
+            //fill input 
+            userContactSettingsFormContext.find('input').eq(userInfoSpanCount).val(contactInfoField);
+          }          
+          userInfoSpanCount++;
+      
+        }
+      })
     }
   },
   updateContact: function(e) {
