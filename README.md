@@ -1,6 +1,6 @@
 This is the source code to a personal web application that acts as a personal address book. 
 
-It runs on node, utilizes docker, and requests to 
+It runs on node and utilizes docker
 
 ### Prerequisites
 
@@ -26,7 +26,7 @@ A step by step series of examples that tell you have to get a development env ru
 Clone this repository. 
 
 ```
-git clone https://github.com/EanWong/InterLACE-api.git
+git clone https://github.com/EanWong/eansdir.git
 ```
 
 After cloning the repository, Enter the app/ directory, install the packages and dependencies with npm
@@ -53,6 +53,8 @@ Go to your browser and access the website to make sure it is running
 This environment exposes the application by the local machine's port at 8080
 
 View and play around at localhost:8080
+
+### Future Considerations
 
 KNOWN Issues and needed fixes:
 1. making duplicate users is possible
